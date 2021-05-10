@@ -2133,6 +2133,8 @@ function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if 
 
 function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$9(Object(source), true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
+var sourceConnectedFound = false;
+
 var checkHandlesConnected = function checkHandlesConnected(state, handleId, nodeId) {
   var edge = state.edges.find(function (edge) {
     return edge.sourceHandle === handleId && edge.source === nodeId || edge.targetHandle === handleId && edge.target === nodeId;
@@ -2146,6 +2148,8 @@ var checkAndAssignStyle = function checkAndAssignStyle(state, connectionHandle, 
     var connected = checkHandlesConnected(state, connectionHandle.id, nodeId); // handle should not be connected and hover must be false
 
     if (!connected && !hover) {
+      connectionHandle.styles = ["react-flow__handle-".concat(connectionHandle.id, "-hide")];
+    } else if (!connected && sourceConnectedFound) {
       connectionHandle.styles = ["react-flow__handle-".concat(connectionHandle.id, "-hide")];
     } else connectionHandle.styles = null;
   }
@@ -2172,6 +2176,14 @@ function changeOnClickAndHoverHandler(state, nodeId) {
 
 
       var sources = updatedNode.__rf.handleBounds.source;
+
+      if (sources && sources.length && updatedNode.type === "singleSourceNode") {
+        var connected = sources.find(function (source) {
+          return checkHandlesConnected(state, String(source.id), updatedNode.id);
+        });
+        connected ? sourceConnectedFound = true : null;
+      } else sourceConnectedFound = false;
+
       var newSources = sources ? loopThroughHandlesAndChangeStyles(state, sources, nodeId, hover) : [];
       updatedNode.__rf.handleBounds.source = newSources; //changing target style
 
@@ -2194,11 +2206,19 @@ function toggleOnDrag(state) {
       });
 
       var targets = updatedNode.__rf.handleBounds.target;
+      var singleTargetHandleConnected = false;
+
+      if (updatedNode.type === "singleTargetNode") {
+        var connected = targets.find(function (target) {
+          return checkHandlesConnected(state, String(target.id), updatedNode.id);
+        });
+        connected ? singleTargetHandleConnected = true : null;
+      }
 
       if (targets) {
         var newTargets = targets.reduce(function (res, target) {
           if (!checkHandlesConnected(state, String(target.id), updatedNode.id)) {
-            if (toggle) {
+            if (toggle || singleTargetHandleConnected) {
               target.styles = ["react-flow__handle-".concat(target.id, "-hide")];
             } else target.styles = [];
           }
