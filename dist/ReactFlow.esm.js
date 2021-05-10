@@ -2133,18 +2133,6 @@ function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if 
 
 function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$9(Object(source), true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-// export function checkHandleConnected(
-//   state: ReactFlowState,
-//   handleId: ElementId
-// ): any {
-//   // check if the current handle is connected
-//   return state.edges.find(
-//     (edge) =>
-//       (edge.source === state.connectionNodeId &&
-//         edge.sourceHandle === handleId) ||
-//       (edge.target === state.connectionNodeId && edge.targetHandle === handleId)
-//   );
-// }
 var checkHandlesConnected = function checkHandlesConnected(state, handleId, nodeId) {
   var edge = state.edges.find(function (edge) {
     return edge.sourceHandle === handleId && edge.source === nodeId || edge.targetHandle === handleId && edge.target === nodeId;
@@ -2153,53 +2141,42 @@ var checkHandlesConnected = function checkHandlesConnected(state, handleId, node
   return true;
 };
 
-var checkAndAssignStyle = function checkAndAssignStyle(state, connectionHandle, hover) {
+var checkAndAssignStyle = function checkAndAssignStyle(state, connectionHandle, nodeId, hover) {
   if (connectionHandle.id !== state.connectionHandleId) {
-    var connected = checkHandlesConnected(state, connectionHandle.id, state.connectionNodeId);
-    console.log(connected, 'connected');
+    var connected = checkHandlesConnected(state, connectionHandle.id, nodeId); // handle should not be connected and hover must be false
 
     if (!connected && !hover) {
-      console.log('hover styles');
       connectionHandle.styles = ["react-flow__handle-".concat(connectionHandle.id, "-hide")];
     } else connectionHandle.styles = null;
-  } else {
-    connectionHandle.styles = null;
   }
 
   return connectionHandle;
 };
 
-var loopThroughHandlesAndChangeStyles = function loopThroughHandlesAndChangeStyles(state, handles, hover) {
+var loopThroughHandlesAndChangeStyles = function loopThroughHandlesAndChangeStyles(state, handles, nodeId, hover) {
   var newHandles = handles.reduce(function (res, handle) {
-    var newHandle = checkAndAssignStyle(state, handle, hover);
+    var newHandle = checkAndAssignStyle(state, handle, nodeId, hover);
     res.push(newHandle);
     return res;
   }, []);
   return newHandles;
 };
 
-function changeOnClick(state, nodeId) {
+function changeOnClickAndHoverHandler(state, nodeId) {
   var hover = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-  console.log('hover');
   var nextNodes = state.nodes.reduce(function (res, node) {
-    console.log(nodeId, 'nodeId');
-
     if (node.id === nodeId) {
-      console.log(node, 'node found');
-
       var updatedNode = _objectSpread$9(_objectSpread$9({}, node), {}, {
         __rf: _objectSpread$9({}, node.__rf)
       }); // changing source style
 
 
       var sources = updatedNode.__rf.handleBounds.source;
-      var newSources = sources ? loopThroughHandlesAndChangeStyles(state, sources, hover) : [];
-      console.log(newSources);
+      var newSources = sources ? loopThroughHandlesAndChangeStyles(state, sources, nodeId, hover) : [];
       updatedNode.__rf.handleBounds.source = newSources; //changing target style
 
       var targets = updatedNode.__rf.handleBounds.target;
-      var newTargets = targets ? loopThroughHandlesAndChangeStyles(state, targets, hover) : [];
-      console.log(newTargets);
+      var newTargets = targets ? loopThroughHandlesAndChangeStyles(state, targets, nodeId, hover) : [];
       updatedNode.__rf.handleBounds.target = newTargets;
       res.push(updatedNode);
     } else res.push(node);
@@ -2208,7 +2185,8 @@ function changeOnClick(state, nodeId) {
   }, []);
   return nextNodes;
 }
-function toggleOnDrag(state, toggle) {
+function toggleOnDrag(state) {
+  var toggle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   var nextNodes = state.nodes.reduce(function (res, node) {
     if (node.id !== state.connectionNodeId) {
       var updatedNode = _objectSpread$9(_objectSpread$9({}, node), {}, {
@@ -2280,13 +2258,9 @@ var SET_MULTI_SELECTION_ACTIVE = 'SET_MULTI_SELECTION_ACTIVE';
 var SET_CONNECTION_MODE = 'SET_CONNECTION_MODE';
 var SET_NODE_EXTENT = 'SET_NODE_EXTENT';
 
-var setChangeHandleStyle = function setChangeHandleStyle(action) {
-  var toggle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-  var nodeId = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+var setChangeHandleStyle = function setChangeHandleStyle(data) {
   return createAction(CHANGE_HANDLE_STYLE, {
-    action: action,
-    toggle: toggle,
-    nodeId: nodeId
+    data: data
   });
 };
 var setToggleTarget = function setToggleTarget(nodeId, handleBoundsId, elementBelow) {
@@ -10921,20 +10895,20 @@ function reactFlowReducer() {
   switch (action.type) {
     case CHANGE_HANDLE_STYLE:
       {
-        var onDrag = "onDrag";
-        var onClick = "onClick",
+        var onDrag = "onDrag",
+            onClick = "onClick",
             onHover = "onHover";
 
-        switch (action.payload.action) {
+        switch (action.payload.data.actions) {
           case onDrag:
             {
-              toggleOnDrag(state, action.payload.toggle);
+              toggleOnDrag(state, action.payload.data.toggle);
               return state;
             }
 
           case onClick:
             {
-              var nextNodes = changeOnClick(state, state.connectionNodeId);
+              var nextNodes = changeOnClickAndHoverHandler(state, state.connectionNodeId);
               return _objectSpread$1(_objectSpread$1({}, state), {}, {
                 nodes: nextNodes
               });
@@ -10942,7 +10916,7 @@ function reactFlowReducer() {
 
           case onHover:
             {
-              var _nextNodes = changeOnClick(state, action.payload.nodeId, true);
+              var _nextNodes = changeOnClickAndHoverHandler(state, action.payload.data.nodeId, action.payload.data.hover);
 
               return _objectSpread$1(_objectSpread$1({}, state), {}, {
                 nodes: _nextNodes

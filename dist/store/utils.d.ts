@@ -1,6 +1,6 @@
 import { ElementId, ReactFlowState, Node } from "../types";
-export declare function changeOnClick(state: ReactFlowState, nodeId: ElementId | null, hover?: boolean): Node[];
-export declare function toggleOnDrag(state: ReactFlowState, toggle: boolean): Node[];
+export declare function changeOnClickAndHoverHandler(state: ReactFlowState, nodeId: ElementId | null | undefined, hover?: boolean | undefined): Node[];
+export declare function toggleOnDrag(state: ReactFlowState, toggle?: boolean | undefined): Node[];
 export declare function createAction<T extends string>(type: T): {
     type: T;
 };
