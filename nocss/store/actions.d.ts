@@ -1,10 +1,14 @@
 import { Elements, OnConnectEndFunc, OnConnectFunc, OnConnectStartFunc, OnConnectStopFunc, NodeDimensionUpdate, NodePosUpdate, NodeDiffUpdate, XYPosition, Transform, Dimensions, InitD3ZoomPayload, TranslateExtent, SetConnectionId, SnapGrid, ConnectionMode, ElementId } from "../types";
-export declare const setChangeHandleStyle: (action: String, toggle?: boolean, nodeId?: string | null) => {
+declare type SetChangeHandleStyleType = {
+    actions: String;
+    toggle?: boolean;
+    nodeId?: string | null;
+    hover?: boolean | undefined;
+};
+export declare const setChangeHandleStyle: (data: SetChangeHandleStyleType) => {
     type: "CHANGE_HANDLE_STYLE";
     payload: {
-        action: String;
-        toggle: boolean;
-        nodeId: string | null;
+        data: SetChangeHandleStyleType;
     };
 };
 export declare const setToggleTarget: (nodeId: ElementId, handleBoundsId: String | null, elementBelow: Element | null) => {
@@ -186,3 +190,4 @@ export declare const setNodeExtent: (nodeExtent: TranslateExtent) => {
     payload: TranslateExtent;
 };
 export declare type ReactFlowAction = ReturnType<typeof setChangeHandleStyle | typeof setToggleTarget | typeof setOnConnect | typeof setOnConnectStart | typeof setOnConnectStop | typeof setOnConnectEnd | typeof setElements | typeof updateNodeDimensions | typeof updateNodePos | typeof updateNodePosDiff | typeof setUserSelection | typeof updateUserSelection | typeof unsetUserSelection | typeof setSelection | typeof unsetNodesSelection | typeof resetSelectedElements | typeof setSelectedElements | typeof addSelectedElements | typeof updateTransform | typeof updateSize | typeof initD3Zoom | typeof setMinZoom | typeof setMaxZoom | typeof setTranslateExtent | typeof setConnectionPosition | typeof setConnectionNodeId | typeof setSnapToGrid | typeof setSnapGrid | typeof setInteractive | typeof setNodesDraggable | typeof setNodesConnectable | typeof setElementsSelectable | typeof setMultiSelectionActive | typeof setConnectionMode | typeof setNodeExtent>;
+export {};
