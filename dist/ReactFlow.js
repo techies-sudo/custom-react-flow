@@ -9180,9 +9180,6 @@ var ConnectionLine = (function (_ref) {
     }) || null;
     setSourceNode(nextSourceNode);
   }, []);
-  console.log(sourceNode, 'sourceNode');
-  console.log(connectionHandleType, 'connectionHandleType');
-  console.log(handleId, 'handleId');
 
   if (!sourceNode || !isConnectable) {
     return null;
@@ -9192,12 +9189,6 @@ var ConnectionLine = (function (_ref) {
     return d.id === handleId;
   }) : sourceNode.__rf.handleBounds[connectionHandleType][0];
 
-  if (handleId) {
-    console.log("***");
-    console.log(sourceNode.__rf.handleBounds);
-  }
-
-  console.log(sourceHandle, 'sourcehandle');
   var sourceHandleX = sourceHandle ? sourceHandle.x + sourceHandle.width / 2 : sourceNode.__rf.width / 2;
   var sourceHandleY = sourceHandle ? sourceHandle.y + sourceHandle.height / 2 : sourceNode.__rf.height;
   var sourceX = sourceNode.__rf.position.x + sourceHandleX;
@@ -9206,7 +9197,6 @@ var ConnectionLine = (function (_ref) {
   var targetY = (connectionPositionY - transform[1]) / transform[2];
   var isRightOrLeft = (sourceHandle === null || sourceHandle === void 0 ? void 0 : sourceHandle.position) === exports.Position.Left || (sourceHandle === null || sourceHandle === void 0 ? void 0 : sourceHandle.position) === exports.Position.Right;
   var targetPosition = isRightOrLeft ? exports.Position.Left : exports.Position.Top; // if(!sourceHandle) {
-  //   console.log('connectionLine source handle not found');
   //   return null;
   // };
 
@@ -11019,6 +11009,7 @@ function reactFlowReducer() {
               });
 
               if (!connected) {
+                if (!elementBelow) console.log("source not connected and toggled");
                 elementBelow ? toggleTargetClass(elementBelow) : null;
 
                 var sources = updatedNode.__rf.handleBounds.source.filter(function (source) {
