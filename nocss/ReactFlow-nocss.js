@@ -9180,6 +9180,9 @@ var ConnectionLine = (function (_ref) {
     }) || null;
     setSourceNode(nextSourceNode);
   }, []);
+  console.log(sourceNode, 'sourceNode');
+  console.log(connectionHandleType, 'connectionHandleType');
+  console.log(handleId, 'handleId');
 
   if (!sourceNode || !isConnectable) {
     return null;
@@ -9188,6 +9191,13 @@ var ConnectionLine = (function (_ref) {
   var sourceHandle = handleId ? sourceNode.__rf.handleBounds[connectionHandleType].find(function (d) {
     return d.id === handleId;
   }) : sourceNode.__rf.handleBounds[connectionHandleType][0];
+
+  if (handleId) {
+    console.log("***");
+    console.log(sourceNode.__rf.handleBounds);
+  }
+
+  console.log(sourceHandle, 'sourcehandle');
   var sourceHandleX = sourceHandle ? sourceHandle.x + sourceHandle.width / 2 : sourceNode.__rf.width / 2;
   var sourceHandleY = sourceHandle ? sourceHandle.y + sourceHandle.height / 2 : sourceNode.__rf.height;
   var sourceX = sourceNode.__rf.position.x + sourceHandleX;
@@ -9195,11 +9205,10 @@ var ConnectionLine = (function (_ref) {
   var targetX = (connectionPositionX - transform[0]) / transform[2];
   var targetY = (connectionPositionY - transform[1]) / transform[2];
   var isRightOrLeft = (sourceHandle === null || sourceHandle === void 0 ? void 0 : sourceHandle.position) === exports.Position.Left || (sourceHandle === null || sourceHandle === void 0 ? void 0 : sourceHandle.position) === exports.Position.Right;
-  var targetPosition = isRightOrLeft ? exports.Position.Left : exports.Position.Top;
-
-  if (!sourceHandle) {
-    return null;
-  }
+  var targetPosition = isRightOrLeft ? exports.Position.Left : exports.Position.Top; // if(!sourceHandle) {
+  //   console.log('connectionLine source handle not found');
+  //   return null;
+  // };
 
   if (CustomConnectionLineComponent) {
     return /*#__PURE__*/React__default['default'].createElement("g", {
@@ -9850,6 +9859,7 @@ var Edge = function Edge(_ref) {
       sourceNode = _getSourceTargetNodes.sourceNode,
       targetNode = _getSourceTargetNodes.targetNode;
 
+  var state = useStore().getState();
   var onConnectEdge = React.useCallback(function (connection) {
     var _props$onEdgeUpdate;
 
@@ -9857,11 +9867,13 @@ var Edge = function Edge(_ref) {
   }, [edge]);
 
   if (!sourceNode) {
+    console.log(state, 'lib state');
     console.warn("couldn't create edge for source id: ".concat(edge.source, "; edge id: ").concat(edge.id));
     return null;
   }
 
   if (!targetNode) {
+    console.log(state, 'lib state');
     console.warn("couldn't create edge for target id: ".concat(edge.target, "; edge id: ").concat(edge.id));
     return null;
   } // source and target node need to be initialized
@@ -9883,12 +9895,13 @@ var Edge = function Edge(_ref) {
   var store = useStore().getState();
 
   if (!sourceHandle) {
+    console.log(state, 'lib state');
     console.warn("couldn't create edge for source handle id: ".concat(sourceHandleId, "; edge id: ").concat(edge.id));
     return null;
   }
 
   if (!targetHandle) {
-    console.log(store);
+    console.log(store, 'lib state');
     console.warn("couldn't create edge for target handle id: ".concat(targetHandleId, "; edge id: ").concat(edge.id));
     return null;
   }
@@ -10465,7 +10478,7 @@ var alwaysValid = function alwaysValid() {
 
 var Handle = function Handle(_ref) {
   var _ref$type = _ref.type,
-      type = _ref$type === void 0 ? 'source' : _ref$type,
+      type = _ref$type === void 0 ? "source" : _ref$type,
       _ref$position = _ref.position,
       position = _ref$position === void 0 ? exports.Position.Top : _ref$position,
       _ref$isValidConnectio = _ref.isValidConnection,
@@ -10501,7 +10514,7 @@ var Handle = function Handle(_ref) {
     return state.connectionMode;
   });
   var handleId = id || null;
-  var isTarget = type === 'target';
+  var isTarget = type === "target";
   var onConnectExtended = React.useCallback(function (params) {
     onConnectAction === null || onConnectAction === void 0 ? void 0 : onConnectAction(params);
     onConnect === null || onConnect === void 0 ? void 0 : onConnect(params);
@@ -10509,7 +10522,7 @@ var Handle = function Handle(_ref) {
   var onMouseDownHandler = React.useCallback(function (event) {
     onMouseDown(event, handleId, nodeId, setConnectionNodeId, setPosition, onConnectExtended, isTarget, isValidConnection, connectionMode, onConnectStart, onConnectStop, onConnectEnd);
   }, [handleId, nodeId, setConnectionNodeId, setPosition, onConnectExtended, isTarget, isValidConnection, connectionMode, onConnectStart, onConnectStop, onConnectEnd]);
-  var handleClasses = cc(['react-flow__handle', "react-flow__handle-".concat(position), 'nodrag', className, {
+  var handleClasses = cc(["react-flow__handle", "react-flow__handle-".concat(position), "nodrag", className, {
     source: !isTarget,
     target: isTarget,
     connectable: isConnectable
@@ -10523,7 +10536,7 @@ var Handle = function Handle(_ref) {
   }, rest), children);
 };
 
-Handle.displayName = 'Handle';
+Handle.displayName = "Handle";
 var Handle$1 = /*#__PURE__*/React.memo(Handle);
 
 var DefaultNode = function DefaultNode(_ref) {
@@ -11006,7 +11019,7 @@ function reactFlowReducer() {
               });
 
               if (!connected) {
-                toggleTargetClass(elementBelow);
+                elementBelow ? toggleTargetClass(elementBelow) : null;
 
                 var sources = updatedNode.__rf.handleBounds.source.filter(function (source) {
                   return source.id !== handleBoundsId;
@@ -11025,7 +11038,7 @@ function reactFlowReducer() {
               updatedNode.__rf.handleBounds.source ? "" : updatedNode.__rf.handleBounds.source = [];
 
               if (!_connected) {
-                toggleTargetClass(elementBelow);
+                elementBelow ? toggleTargetClass(elementBelow) : null;
 
                 var targets = updatedNode.__rf.handleBounds.target.filter(function (target) {
                   return target.id !== handleBoundsId;
