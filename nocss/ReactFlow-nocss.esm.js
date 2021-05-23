@@ -56,21 +56,6 @@ function cc(names) {
   return out
 }
 
-function _defineProperty$1(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
 /**
  * Adapted from React: https://github.com/facebook/react/blob/master/packages/shared/formatProdErrorMessage.js
  *
@@ -2129,7 +2114,22 @@ var useSelector = /*#__PURE__*/createSelectorHook();
 
 setBatch(unstable_batchedUpdates);
 
-function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function _defineProperty$1(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$9(Object(source), true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -2248,6 +2248,7 @@ var SET_ON_CONNECT_STOP = 'SET_ON_CONNECT_STOP';
 var SET_ON_CONNECT_END = 'SET_ON_CONNECT_END';
 var SET_ELEMENTS = 'SET_ELEMENTS';
 var TOGGLE_TARGET = 'TOGGLE_TARGET';
+var SOURCE_TO_TARGET = 'SOURCE_TO_TARGET';
 var CHANGE_HANDLE_STYLE = 'CHANGE_HANDLE_STYLE';
 var UPDATE_NODE_DIMENSIONS = 'UPDATE_NODE_DIMENSIONS';
 var UPDATE_NODE_POS = 'UPDATE_NODE_POS';
@@ -2281,6 +2282,13 @@ var SET_NODE_EXTENT = 'SET_NODE_EXTENT';
 var setChangeHandleStyle = function setChangeHandleStyle(data) {
   return createAction(CHANGE_HANDLE_STYLE, {
     data: data
+  });
+}; // this action will set the passed target to source and delete the edge if it is connected
+
+var setSourceToTarget = function setSourceToTarget(nodeId, handleBoundsId) {
+  return createAction(SOURCE_TO_TARGET, {
+    nodeId: nodeId,
+    handleBoundsId: handleBoundsId
   });
 };
 var setToggleTarget = function setToggleTarget(nodeId, handleBoundsId, elementBelow) {
@@ -2432,6 +2440,7 @@ var setNodeExtent = function setNodeExtent(nodeExtent) {
 var actions = /*#__PURE__*/Object.freeze({
   __proto__: null,
   setChangeHandleStyle: setChangeHandleStyle,
+  setSourceToTarget: setSourceToTarget,
   setToggleTarget: setToggleTarget,
   setOnConnect: setOnConnect,
   setOnConnectStart: setOnConnectStart,
@@ -2627,7 +2636,7 @@ var useKeyPress = (function (keyCode) {
   return keyPressed;
 });
 
-function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$8(Object(source), true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var isEdge = function isEdge(element) {
@@ -8423,7 +8432,7 @@ var DraggableCore_1 = DraggableCore;
 cjs.default = _default;
 cjs.DraggableCore = DraggableCore_1;
 
-function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$6(Object(source), true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var NodesSelection = (function (_ref) {
@@ -9159,7 +9168,6 @@ var ConnectionLine = (function (_ref) {
   var sourceHandle = handleId ? sourceNode.__rf.handleBounds[connectionHandleType].find(function (d) {
     return d.id === handleId;
   }) : sourceNode.__rf.handleBounds[connectionHandleType][0];
-
   var sourceHandleX = sourceHandle ? sourceHandle.x + sourceHandle.width / 2 : sourceNode.__rf.width / 2;
   var sourceHandleY = sourceHandle ? sourceHandle.y + sourceHandle.height / 2 : sourceNode.__rf.height;
   var sourceX = sourceNode.__rf.position.x + sourceHandleX;
@@ -9513,7 +9521,8 @@ var wrapEdge = (function (EdgeComponent) {
         onMouseEnter = _ref.onMouseEnter,
         onMouseMove = _ref.onMouseMove,
         onMouseLeave = _ref.onMouseLeave,
-        edgeUpdaterRadius = _ref.edgeUpdaterRadius;
+        edgeUpdaterRadius = _ref.edgeUpdaterRadius,
+        onEdgeUpdateStart = _ref.onEdgeUpdateStart;
     var addSelectedElements = useStoreActions(function (actions) {
       return actions.addSelectedElements;
     });
@@ -9596,8 +9605,9 @@ var wrapEdge = (function (EdgeComponent) {
       };
 
       var isTarget = isSourceHandle;
+      onEdgeUpdateStart === null || onEdgeUpdateStart === void 0 ? void 0 : onEdgeUpdateStart(event, edgeElement);
       onMouseDown(event, handleId, nodeId, setConnectionNodeId, setPosition, onConnectEdge, isTarget, isValidConnection, connectionMode);
-    }, [id, source, target, type, sourceHandleId, targetHandleId, setConnectionNodeId, setPosition]);
+    }, [id, source, target, type, sourceHandleId, targetHandleId, setConnectionNodeId, setPosition, edgeElement]);
     var onEdgeUpdaterSourceMouseDown = useCallback(function (event) {
       handleEdgeUpdater(event, true);
     }, [id, source, sourceHandleId, handleEdgeUpdater]);
@@ -9672,7 +9682,7 @@ var wrapEdge = (function (EdgeComponent) {
   return /*#__PURE__*/memo(EdgeWrapper);
 });
 
-function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$5(Object(source), true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 function createEdgeTypes(edgeTypes) {
@@ -9931,7 +9941,8 @@ var Edge = function Edge(_ref) {
     onMouseMove: props.onEdgeMouseMove,
     onMouseLeave: props.onEdgeMouseLeave,
     edgeUpdaterRadius: props.edgeUpdaterRadius,
-    onEdgeDoubleClick: props.onEdgeDoubleClick
+    onEdgeDoubleClick: props.onEdgeDoubleClick,
+    onEdgeUpdateStart: props.onEdgeUpdateStart
   });
 };
 
@@ -10206,7 +10217,8 @@ var GraphView = function GraphView(_ref) {
       onEdgeMouseEnter = _ref.onEdgeMouseEnter,
       onEdgeMouseMove = _ref.onEdgeMouseMove,
       onEdgeMouseLeave = _ref.onEdgeMouseLeave,
-      edgeUpdaterRadius = _ref.edgeUpdaterRadius;
+      edgeUpdaterRadius = _ref.edgeUpdaterRadius,
+      onEdgeUpdateStart = _ref.onEdgeUpdateStart;
   var isInitialized = useRef(false);
   var setOnConnect = useStoreActions(function (actions) {
     return actions.setOnConnect;
@@ -10411,6 +10423,7 @@ var GraphView = function GraphView(_ref) {
     onEdgeMouseEnter: onEdgeMouseEnter,
     onEdgeMouseMove: onEdgeMouseMove,
     onEdgeMouseLeave: onEdgeMouseLeave,
+    onEdgeUpdateStart: onEdgeUpdateStart,
     edgeUpdaterRadius: edgeUpdaterRadius
   }));
 };
@@ -10439,7 +10452,7 @@ var alwaysValid = function alwaysValid() {
 
 var Handle = function Handle(_ref) {
   var _ref$type = _ref.type,
-      type = _ref$type === void 0 ? "source" : _ref$type,
+      type = _ref$type === void 0 ? 'source' : _ref$type,
       _ref$position = _ref.position,
       position = _ref$position === void 0 ? Position.Top : _ref$position,
       _ref$isValidConnectio = _ref.isValidConnection,
@@ -10475,7 +10488,7 @@ var Handle = function Handle(_ref) {
     return state.connectionMode;
   });
   var handleId = id || null;
-  var isTarget = type === "target";
+  var isTarget = type === 'target';
   var onConnectExtended = useCallback(function (params) {
     onConnectAction === null || onConnectAction === void 0 ? void 0 : onConnectAction(params);
     onConnect === null || onConnect === void 0 ? void 0 : onConnect(params);
@@ -10483,7 +10496,7 @@ var Handle = function Handle(_ref) {
   var onMouseDownHandler = useCallback(function (event) {
     onMouseDown(event, handleId, nodeId, setConnectionNodeId, setPosition, onConnectExtended, isTarget, isValidConnection, connectionMode, onConnectStart, onConnectStop, onConnectEnd);
   }, [handleId, nodeId, setConnectionNodeId, setPosition, onConnectExtended, isTarget, isValidConnection, connectionMode, onConnectStart, onConnectStop, onConnectEnd]);
-  var handleClasses = cc(["react-flow__handle", "react-flow__handle-".concat(position), "nodrag", className, {
+  var handleClasses = cc(['react-flow__handle', "react-flow__handle-".concat(position), 'nodrag', className, {
     source: !isTarget,
     target: isTarget,
     connectable: isConnectable
@@ -10497,7 +10510,7 @@ var Handle = function Handle(_ref) {
   }, rest), children);
 };
 
-Handle.displayName = "Handle";
+Handle.displayName = 'Handle';
 var Handle$1 = /*#__PURE__*/memo(Handle);
 
 var DefaultNode = function DefaultNode(_ref) {
@@ -10551,7 +10564,7 @@ var OutputNode = function OutputNode(_ref) {
 OutputNode.displayName = 'OutputNode';
 var OutputNode$1 = /*#__PURE__*/memo(OutputNode);
 
-function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$4(Object(source), true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var wrapNode = (function (NodeComponent) {
@@ -10586,6 +10599,7 @@ var wrapNode = (function (NodeComponent) {
         snapGrid = _ref.snapGrid,
         isDragging = _ref.isDragging,
         resizeObserver = _ref.resizeObserver;
+    var observerInitialized = useRef(false);
     var updateNodeDimensions = useStoreActions(function (actions) {
       return actions.updateNodeDimensions;
     });
@@ -10722,8 +10736,10 @@ var wrapNode = (function (NodeComponent) {
     var onNodeDoubleClickHandler = useCallback(function (event) {
       onNodeDoubleClick === null || onNodeDoubleClick === void 0 ? void 0 : onNodeDoubleClick(event, node);
     }, [node, onNodeDoubleClick]);
-    useEffect(function () {
-      if (nodeElement.current && !isHidden) {
+    useLayoutEffect(function () {
+      // the resize observer calls an updateNodeDimensions initially.
+      // We don't need to force another dimension update if it hasn't happened yet
+      if (nodeElement.current && !isHidden && observerInitialized.current) {
         updateNodeDimensions([{
           id: id,
           nodeElement: nodeElement.current,
@@ -10733,14 +10749,13 @@ var wrapNode = (function (NodeComponent) {
     }, [id, isHidden, sourcePosition, targetPosition]);
     useEffect(function () {
       if (nodeElement.current) {
+        observerInitialized.current = true;
         var currNode = nodeElement.current;
         resizeObserver === null || resizeObserver === void 0 ? void 0 : resizeObserver.observe(currNode);
         return function () {
           return resizeObserver === null || resizeObserver === void 0 ? void 0 : resizeObserver.unobserve(currNode);
         };
       }
-
-      return;
     }, []);
 
     if (isHidden) {
@@ -10792,7 +10807,7 @@ var wrapNode = (function (NodeComponent) {
   return /*#__PURE__*/memo(NodeWrapper);
 });
 
-function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$3(Object(source), true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 function createNodeTypes(nodeTypes) {
@@ -10870,7 +10885,7 @@ var fastDeepEqual = function equal(a, b) {
   return a!==a && b!==b;
 };
 
-function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(Object(source), true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var getHandleBounds = function getHandleBounds(nodeElement, scale) {
@@ -10902,13 +10917,13 @@ var getHandleBoundsByHandleType = function getHandleBoundsByHandleType(selector,
   });
 };
 
-function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$1(Object(source), true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 var toggleTargetClass = function toggleTargetClass(elementBelow) {
-  var elementBelowIsTarget = elementBelow === null || elementBelow === void 0 ? void 0 : elementBelow.classList.contains("target");
-  elementBelowIsTarget ? elementBelow === null || elementBelow === void 0 ? void 0 : elementBelow.classList.replace("target", "source") : elementBelow === null || elementBelow === void 0 ? void 0 : elementBelow.classList.replace("source", "target");
+  var elementBelowIsTarget = elementBelow === null || elementBelow === void 0 ? void 0 : elementBelow.classList.contains('target');
+  elementBelowIsTarget ? elementBelow === null || elementBelow === void 0 ? void 0 : elementBelow.classList.replace('target', 'source') : elementBelow === null || elementBelow === void 0 ? void 0 : elementBelow.classList.replace('source', 'target');
 };
 
 function reactFlowReducer() {
@@ -10918,9 +10933,9 @@ function reactFlowReducer() {
   switch (action.type) {
     case CHANGE_HANDLE_STYLE:
       {
-        var onDrag = "onDrag",
-            onClick = "onClick",
-            onHover = "onHover";
+        var onDrag = 'onDrag',
+            onClick = 'onClick',
+            onHover = 'onHover';
 
         switch (action.payload.data.actions) {
           case onDrag:
@@ -10953,13 +10968,61 @@ function reactFlowReducer() {
         }
       }
 
+    case SOURCE_TO_TARGET:
+      {
+        var sourceHandleId = action.payload.handleBoundsId;
+
+        var newEdges = _toConsumableArray(state.edges);
+
+        var _nextNodes2 = state.nodes.reduce(function (res, node) {
+          if (node.id === action.payload.nodeId) {
+            var updatedNode = _objectSpread$1(_objectSpread$1({}, node), {}, {
+              __rf: _objectSpread$1({}, node.__rf)
+            });
+
+            var sourceHandle = updatedNode.__rf.handleBounds.source.find(function (s) {
+              return s.id === sourceHandleId;
+            });
+
+            if (sourceHandle) {
+              var _updatedNode$__rf$han;
+
+              var connected = state.edges.find(function (edge) {
+                return edge.source === action.payload.nodeId && edge.sourceHandle === sourceHandleId;
+              });
+              if (connected) newEdges = newEdges.filter(function (edge) {
+                return edge.source !== action.payload.nodeId && edge.sourceHandle !== sourceHandle;
+              });
+
+              updatedNode.__rf.handleBounds.target.push(sourceHandle);
+
+              var nextSourceHandles = (_updatedNode$__rf$han = updatedNode.__rf.handleBounds.source) === null || _updatedNode$__rf$han === void 0 ? void 0 : _updatedNode$__rf$han.filter(function (s) {
+                return s.id !== sourceHandleId;
+              });
+              updatedNode.__rf.handleBounds.source = nextSourceHandles;
+            }
+
+            res.push(updatedNode);
+          } else {
+            res.push(node);
+          }
+
+          return res;
+        }, []);
+
+        return _objectSpread$1(_objectSpread$1({}, state), {}, {
+          nodes: _nextNodes2,
+          edges: newEdges
+        });
+      }
+
     case TOGGLE_TARGET:
       {
         var targetNodeId = action.payload.nodeId;
         var handleBoundsId = action.payload.handleBoundsId;
         var elementBelow = action.payload.elementBelow;
 
-        var _nextNodes2 = state.nodes.reduce(function (res, node) {
+        var _nextNodes3 = state.nodes.reduce(function (res, node) {
           if (node.id === targetNodeId) {
             var updatedNode = _objectSpread$1(_objectSpread$1({}, node), {}, {
               __rf: _objectSpread$1({}, node.__rf)
@@ -10980,7 +11043,6 @@ function reactFlowReducer() {
               });
 
               if (!connected) {
-                if (!elementBelow) console.log("source not connected and toggled");
                 elementBelow ? toggleTargetClass(elementBelow) : null;
 
                 var sources = updatedNode.__rf.handleBounds.source.filter(function (source) {
@@ -10997,7 +11059,7 @@ function reactFlowReducer() {
                 return edge.target === targetNodeId && edge.targetHandle === foundHandleTarget.id;
               });
 
-              updatedNode.__rf.handleBounds.source ? "" : updatedNode.__rf.handleBounds.source = [];
+              updatedNode.__rf.handleBounds.source ? '' : updatedNode.__rf.handleBounds.source = [];
 
               if (!_connected) {
                 elementBelow ? toggleTargetClass(elementBelow) : null;
@@ -11019,7 +11081,7 @@ function reactFlowReducer() {
         }, []);
 
         return _objectSpread$1(_objectSpread$1({}, state), {}, {
-          nodes: _nextNodes2
+          nodes: _nextNodes3
         });
       }
 
@@ -11044,7 +11106,7 @@ function reactFlowReducer() {
                 updatedNode.__rf.position = propElement.position;
               }
 
-              if (typeof propElement.type !== "undefined" && propElement.type !== storeNode.type) {
+              if (typeof propElement.type !== 'undefined' && propElement.type !== storeNode.type) {
                 // we reset the elements dimensions here in order to force a re-calculation of the bounds.
                 // When the type of a node changes it is possible that the number or positions of handles changes too.
                 updatedNode.__rf.width = null;
@@ -11068,11 +11130,11 @@ function reactFlowReducer() {
 
           return res;
         }, nextElements),
-            _nextNodes3 = _propElements$reduce.nextNodes,
+            _nextNodes4 = _propElements$reduce.nextNodes,
             nextEdges = _propElements$reduce.nextEdges;
 
         return _objectSpread$1(_objectSpread$1({}, state), {}, {
-          nodes: _nextNodes3,
+          nodes: _nextNodes4,
           edges: nextEdges
         });
       }
@@ -11123,7 +11185,7 @@ function reactFlowReducer() {
           };
         }
 
-        var _nextNodes4 = state.nodes.map(function (node) {
+        var _nextNodes5 = state.nodes.map(function (node) {
           if (node.id === id) {
             return _objectSpread$1(_objectSpread$1({}, node), {}, {
               __rf: _objectSpread$1(_objectSpread$1({}, node.__rf), {}, {
@@ -11136,7 +11198,7 @@ function reactFlowReducer() {
         });
 
         return _objectSpread$1(_objectSpread$1({}, state), {}, {
-          nodes: _nextNodes4
+          nodes: _nextNodes5
         });
       }
 
@@ -11147,7 +11209,7 @@ function reactFlowReducer() {
             diff = _action$payload2.diff,
             isDragging = _action$payload2.isDragging;
 
-        var _nextNodes5 = state.nodes.map(function (node) {
+        var _nextNodes6 = state.nodes.map(function (node) {
           var _state$selectedElemen;
 
           if (_id === node.id || (_state$selectedElemen = state.selectedElements) !== null && _state$selectedElemen !== void 0 && _state$selectedElemen.find(function (sNode) {
@@ -11173,7 +11235,7 @@ function reactFlowReducer() {
         });
 
         return _objectSpread$1(_objectSpread$1({}, state), {}, {
-          nodes: _nextNodes5
+          nodes: _nextNodes6
         });
       }
 
@@ -11507,7 +11569,7 @@ var ReactFlow = /*#__PURE__*/forwardRef(function (_ref, ref) {
       _ref$snapGrid = _ref.snapGrid,
       snapGrid = _ref$snapGrid === void 0 ? [15, 15] : _ref$snapGrid,
       _ref$onlyRenderVisibl = _ref.onlyRenderVisibleElements,
-      onlyRenderVisibleElements = _ref$onlyRenderVisibl === void 0 ? true : _ref$onlyRenderVisibl,
+      onlyRenderVisibleElements = _ref$onlyRenderVisibl === void 0 ? false : _ref$onlyRenderVisibl,
       _ref$selectNodesOnDra = _ref.selectNodesOnDrag,
       selectNodesOnDrag = _ref$selectNodesOnDra === void 0 ? true : _ref$selectNodesOnDra,
       nodesDraggable = _ref.nodesDraggable,
@@ -11548,13 +11610,14 @@ var ReactFlow = /*#__PURE__*/forwardRef(function (_ref, ref) {
       onEdgeMouseEnter = _ref.onEdgeMouseEnter,
       onEdgeMouseMove = _ref.onEdgeMouseMove,
       onEdgeMouseLeave = _ref.onEdgeMouseLeave,
+      onEdgeUpdateStart = _ref.onEdgeUpdateStart,
       _ref$edgeUpdaterRadiu = _ref.edgeUpdaterRadius,
       edgeUpdaterRadius = _ref$edgeUpdaterRadiu === void 0 ? 10 : _ref$edgeUpdaterRadiu,
       _ref$nodeTypesId = _ref.nodeTypesId,
       nodeTypesId = _ref$nodeTypesId === void 0 ? '1' : _ref$nodeTypesId,
       _ref$edgeTypesId = _ref.edgeTypesId,
       edgeTypesId = _ref$edgeTypesId === void 0 ? '1' : _ref$edgeTypesId,
-      rest = _objectWithoutProperties(_ref, ["elements", "className", "nodeTypes", "edgeTypes", "onElementClick", "onLoad", "onMove", "onMoveStart", "onMoveEnd", "onElementsRemove", "onConnect", "onConnectStart", "onConnectStop", "onConnectEnd", "onNodeMouseEnter", "onNodeMouseMove", "onNodeMouseLeave", "onNodeContextMenu", "onNodeDoubleClick", "onNodeDragStart", "onNodeDrag", "onNodeDragStop", "onSelectionChange", "onSelectionDragStart", "onSelectionDrag", "onSelectionDragStop", "onSelectionContextMenu", "connectionMode", "connectionLineType", "connectionLineStyle", "connectionLineComponent", "deleteKeyCode", "selectionKeyCode", "multiSelectionKeyCode", "zoomActivationKeyCode", "snapToGrid", "snapGrid", "onlyRenderVisibleElements", "selectNodesOnDrag", "nodesDraggable", "nodesConnectable", "elementsSelectable", "minZoom", "maxZoom", "defaultZoom", "defaultPosition", "translateExtent", "nodeExtent", "arrowHeadColor", "markerEndId", "zoomOnScroll", "zoomOnPinch", "panOnScroll", "panOnScrollSpeed", "panOnScrollMode", "zoomOnDoubleClick", "paneMoveable", "onPaneClick", "onPaneScroll", "onPaneContextMenu", "children", "onEdgeUpdate", "onEdgeContextMenu", "onEdgeDoubleClick", "onEdgeMouseEnter", "onEdgeMouseMove", "onEdgeMouseLeave", "edgeUpdaterRadius", "nodeTypesId", "edgeTypesId"]);
+      rest = _objectWithoutProperties(_ref, ["elements", "className", "nodeTypes", "edgeTypes", "onElementClick", "onLoad", "onMove", "onMoveStart", "onMoveEnd", "onElementsRemove", "onConnect", "onConnectStart", "onConnectStop", "onConnectEnd", "onNodeMouseEnter", "onNodeMouseMove", "onNodeMouseLeave", "onNodeContextMenu", "onNodeDoubleClick", "onNodeDragStart", "onNodeDrag", "onNodeDragStop", "onSelectionChange", "onSelectionDragStart", "onSelectionDrag", "onSelectionDragStop", "onSelectionContextMenu", "connectionMode", "connectionLineType", "connectionLineStyle", "connectionLineComponent", "deleteKeyCode", "selectionKeyCode", "multiSelectionKeyCode", "zoomActivationKeyCode", "snapToGrid", "snapGrid", "onlyRenderVisibleElements", "selectNodesOnDrag", "nodesDraggable", "nodesConnectable", "elementsSelectable", "minZoom", "maxZoom", "defaultZoom", "defaultPosition", "translateExtent", "nodeExtent", "arrowHeadColor", "markerEndId", "zoomOnScroll", "zoomOnPinch", "panOnScroll", "panOnScrollSpeed", "panOnScrollMode", "zoomOnDoubleClick", "paneMoveable", "onPaneClick", "onPaneScroll", "onPaneContextMenu", "children", "onEdgeUpdate", "onEdgeContextMenu", "onEdgeDoubleClick", "onEdgeMouseEnter", "onEdgeMouseMove", "onEdgeMouseLeave", "onEdgeUpdateStart", "edgeUpdaterRadius", "nodeTypesId", "edgeTypesId"]);
 
   var nodeTypesParsed = useMemo(function () {
     return createNodeTypes(nodeTypes);
@@ -11630,6 +11693,7 @@ var ReactFlow = /*#__PURE__*/forwardRef(function (_ref, ref) {
     onEdgeMouseEnter: onEdgeMouseEnter,
     onEdgeMouseMove: onEdgeMouseMove,
     onEdgeMouseLeave: onEdgeMouseLeave,
+    onEdgeUpdateStart: onEdgeUpdateStart,
     edgeUpdaterRadius: edgeUpdaterRadius
   }), /*#__PURE__*/React__default.createElement(ElementUpdater, {
     elements: elements
@@ -11966,7 +12030,7 @@ var createGridDotsPath = function createGridDotsPath(size, fill) {
 
 var _defaultColors;
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty$1(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 var defaultColors = (_defaultColors = {}, _defineProperty$1(_defaultColors, BackgroundVariant.Dots, '#81818a'), _defineProperty$1(_defaultColors, BackgroundVariant.Lines, '#eee'), _defaultColors);
